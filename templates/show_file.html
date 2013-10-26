@@ -1,0 +1,246 @@
+{% load dajaxice_templatetags %}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Show's the File</title>
+    
+    <script src="{{ MEDIA_URL }}/static/js/jquery-ui-1.10.3.custom.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ MEDIA_URL }}/static/js/jquery.min.js"><\/script>')</script>
+    <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    
+    <link rel="stylesheet" href="{{ MEDIA_URL }}/static/css/style.css" />
+    
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/static/css/imgareaselect-animated.css" />
+    <script type="text/javascript" src="{{ MEDIA_URL }}/static/js/jquery.imgareaselect.pack.js"></script>
+
+	{% dajaxice_js_import %}
+    
+</head>
+
+<body>
+<div id="menu" class="img-right-rounded shadow"><img src="{{ MEDIA_URL }}/static/images/menu.png" width="30" height="30" alt="Menu"/></div>
+<div id="questionMenu" class="img-right-rounded shadow">
+    <div class="menuItem newline" style="margin-left: 21%;" >Question Number</div>
+    <input id="questionNumber" class="menuInputs img-rounded menuItem newline" style="margin-left: 37%;" type="number" />
+    <div class="menuItem newline" style="margin-left: 27%;" >Answer Type</div>
+    <div id="questionType" class="menuItem newline center" style="width: 100%;">
+        <select class="menuInputs img-rounded" style="margin-left: 0;width: 80%;">
+            <option value="text">Text</option>
+            <option value="multiple">Multiple Choice</option>
+            <option value="choice">Paragraph</option>
+            <option value="scale">Scale</option>
+            <option value="date">Checkbox</option>
+            <option value="work">Show Your Work Box</option>
+        </select>
+    </div>
+    <div class="menuItem"></div>
+</div>
+<div id="textPane" class="highlight typePane img-right-rounded shadow">
+    <div class="menuItem">Correct Answer</div>
+    <div id="correctAnswer" class="menuItem newline"></div>
+    <div class="menuItem">Points</div>
+    <input id="points" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="1" type="text" />
+    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
+    <textarea id="helpInput" rows="4" class="menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
+    <div class="menuItem">Help Link...</div>
+    <input id="helpLink" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" type="text" />
+</div>
+<section id="wrapper">
+    {% for backImage in newProject.backgroundImages.all %}
+        {% ifequal backImage.pageNumber pageNumber %}
+        <img id="backgroundImage"src="{{ MEDIA_URL }}{{ backImage.imagePath }}"/>
+        {% endifequal %}
+    {% endfor %}
+    
+    {% if pageNumber > 1 %}
+    <a href="/nextPage/{{ newProject.id }}/{{ pageNumber|add:"-1" }}/{{ totalPages }}/" title="Previous"><div id="leftNav" class="nav_button_holder"></div></a>
+    {% endif %}
+    {% ifnotequal pageNumber totalPages %}
+    <a href="/nextPage/{{ newProject.id }}/{{ pageNumber|add:"1" }}/{{ totalPages }}/" title="Next"><div id="rightNav" class="nav_button_holder"></div></a>
+    {% endifnotequal %}
+    
+    <form id="default_form">
+    {% if formInputs %}
+        {% for input in formInputs %}
+            {% ifequal input.pageNumber pageNumber %}
+            <!--<div id="options{{ input.id }}" class="options_holder img-rounded" style="position: absolute;left: {{ input.left|add:"-1" }}%;top: {{ input.top|add:"-1" }}%;width: {{ input.width|add:"4" }}%; height: {{ input.height|add:"11" }}%"></div>-->
+            <input id="input{{ input.id }}" class="answers highlight" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}"}' type="{{ input.inputType }}" title='answer...' name="" style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">
+            {% endifequal %}
+        {% endfor %}
+    {% endif %}
+    </form>
+    
+    
+</section>
+        
+<script>
+    $( document ).ready(function() {
+        resizeElements();
+    });
+    $( window ).resize(function() {
+        resizeElements();
+      });
+    
+    function resizeElements() {
+        var screenWidth = $( '#wrapper' ).width();
+        var fontPixels = (screenWidth/1267)*22;
+        //$("input").attr('style','font-size:'+fontPixels+'px;line-height:'+fontPixels+'px;');
+        //$("input").css('font-size', fontPixels+'px', 'line-height', fontPixels+'px');
+        $("input").css({
+                'font-size': fontPixels+'px',
+                'line-height': fontPixels+'px' 
+        });
+        var topOfPane = $('#questionMenu').position().top + $('#questionMenu').outerHeight(true);
+        $('.typePane').css({
+                'top': topOfPane,
+        });
+        
+        
+    }
+    
+    /* Dajaxice Calls------------------------------------------------------------------------
+     */
+    /*$('#wrapper img').click(function(){
+        Dajaxice.myproject.googleapi.test(test_callback, {'test_id':'it worked'});
+    });*/
+    
+    var leftPercentage = 0;
+    var topPercentage = 0;
+    var widthPercentage = 0;
+    var heightPercentage = 0;
+    
+    $('#wrapper img').imgAreaSelect({
+        fadeSpeed: false,
+        handles: true,
+        onSelectEnd: function(img, selection){
+            if (!selection.width || !selection.height){
+                return;
+            }
+            $('.imgareaselect-selection').attr( 'id', 'enter_area');
+            var imageWidth = $( '#wrapper' ).width();
+            leftPercentage = (selection.x1/imageWidth)*100;
+            var imageHeight = $( '#wrapper' ).height();
+            topPercentage = (selection.y1/imageHeight)*100;
+            widthPercentage = (selection.width/imageWidth)*100;
+            heightPercentage = (selection.height/imageHeight)*100;
+            
+            
+            //alert('left: ' + leftPercentage + '%, top: '+ topPercentage+ '%, width: ' + widthPercentage + '%, height: ' + heightPercentage + '%...');
+            
+        }
+    });
+    
+    $(document).keydown(function (e) {
+        if (e.keyCode == 13){
+            e.preventDefault();
+            if ($('#enter_area').is(":visible")) {
+                //alert('selection is visible');
+                runSelection();
+            }
+        }
+    });
+    
+    $( document ).dblclick(function() {
+            if ($('#enter_area').is(":visible")) {
+                //alert('selection is visible');
+                runSelection();
+            }
+        //alert('left: ' + leftPercentage + '%, top: '+ topPercentage+ '%, width: ' + widthPercentage + '%, height: ' + heightPercentage + '%...');
+    });
+    
+    function runSelection() {
+        $('.imgareaselect-outer').css('background-color','rgb(152,128,5)');
+        $('#wrapper img').imgAreaSelect({
+            fadeSpeed: 1000,
+            hide: true,
+            onSelectStart: doThisNext,
+        });
+        $('#wrapper img').imgAreaSelect({
+            fadeSpeed: false,
+        });
+        var inputNumber = ($("form input").length)+1;
+        Dajaxice.myproject.googleapi.test(test_callback, {'userInfo': '{{ userInfo.id }}', 'project_id':'{{ newProject.id }}', 'pageNumber': '{{ pageNumber }}', 'inputNumber': inputNumber, 'left': leftPercentage,'top':topPercentage,'width':widthPercentage,'height':heightPercentage});
+        
+    }
+    
+    function doThisNext(callback) {
+        $('#wrapper img').imgAreaSelect({
+            fadeSpeed: false,
+        }); 
+        $('.imgareaselect-outer').css('background-color','rgb(0,0,0)');
+        
+        //callback();
+    }
+    
+    
+    
+    //Dajaxice.myproject.teacherTools.setQuickLink(setQuickLink_callback, {'list_id':listId, 'link_id':parseInt(linkID), 'user_id':parseInt(userID), 'sort_number':parseInt(sortNumber)});
+    /*--------------------for dajaxice callbacks------------------------------------*/
+	
+    function test_callback(data){
+        //alert('left: ' + data.left + '%, top: '+ data.top+ '%, width: ' + data.width + '%, height: ' + data.height + '%...');
+
+        $( "#default_form" ).append( "<input id='input"+ data.inputNumber +"' class='answers highlight' data-options='' type='text' title='answer...' name=''>" );
+        $("#input"+ data.inputNumber).css({
+                'position': 'absolute',
+                'z-index': '1000',
+                'left': data.left + '%',
+                'top': data.top+ '%',
+                'width': data.width + '%',
+                'height': data.height + '%'
+        });
+        $("#input"+ data.inputNumber).attr('data-options', '{"answer_id":"'+ data.inputNumber + '", "question_number":"'+ data.questionNumber + '"}');
+        resizeElements();
+    }
+    
+    /*****************************Put Answer info**************************************************/
+    $('#default_form').on('focus', '.answers', function () {
+        //alert('here');
+        $('.typePane').hide();
+        var elementID = $(this).attr('id');
+        var IDnum = elementID.match(/\d+/g);
+        $('#'+elementID).css('z-index','1002');
+        $('#questionMenu').css('display','block');
+        $('#questionNumber').val($('#'+elementID).data("options").question_number);
+        resizeElements();
+        setTimeout(function() {
+            var dInput = $('#'+elementID).val();
+            //console.log(dInput);
+            $('.typePane').slideDown( "slow");
+            $('#correctAnswer').text(dInput);
+        }, 500);
+    });
+    
+    
+    
+    $('#backgroundImage').click(function(){
+        //alert('background');
+        $('.answers').blur();
+        var elementID = $(this).attr('id');
+        var IDnum = elementID.match(/\d+/g);
+        $('#'+elementID).css('z-index','1000');
+        $('#questionMenu').hide("slow");
+        $('.typePane').hide("slow");
+    });
+
+
+    $("#default_form").on('keydown', '.answers', function() {
+        //Interrupt the execution thread to allow input to update
+        var elementID = $(this).attr('id');
+        setTimeout(function() {
+            var dInput = $('#'+elementID).val();
+            //console.log(dInput);
+            $('#correctAnswer').text(dInput);
+        }, 0);
+    });
+    
+    
+    
+</script
+
+
+
+</body>
+</html> 
