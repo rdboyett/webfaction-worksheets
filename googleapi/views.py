@@ -39,13 +39,22 @@ import zipfile
 import StringIO
 
 
+#Test where the settings file is located (in home computer or on the server)
+testPath = ROOT_PATH.split(os.sep)
+if 'C:' in testPath:
+    bOnServer = False
+else:
+    bOnServer = True
 
 
 # CLIENT_SECRETS, name of a file containing the OAuth 2.0 information for this
 # application, including client_id and client_secret, which are found
 # on the API Access tab on the Google APIs
 # Console <http://code.google.com/apis/console>
-CLIENT_SECRETS = '/home/rdboyett/webapps/static_media/client_secrets.json'
+if bOnServer:
+    CLIENT_SECRETS = '/home/rdboyett/webapps/static_media/client_secrets.json'
+else:
+    CLIENT_SECRETS = 'c:/webfactionProject/client_secrets.json'
 
 SCOPES = [
     'https://www.googleapis.com/auth/drive.install',
@@ -55,10 +64,16 @@ SCOPES = [
     # Add other requested scopes.
 ]
 
-FLOW = flow_from_clientsecrets(
-    CLIENT_SECRETS,
-    scope= ' '.join(SCOPES),
-    redirect_uri='http://rdboyett.webfactional.com/oauth2callback')
+if bOnServer:
+    FLOW = flow_from_clientsecrets(
+        CLIENT_SECRETS,
+        scope= ' '.join(SCOPES),
+        redirect_uri='http://rdboyett.webfactional.com/oauth2callback')
+else:
+    FLOW = flow_from_clientsecrets(
+        CLIENT_SECRETS,
+        scope= ' '.join(SCOPES),
+        redirect_uri='http://127.0.0.1:8000/oauth2callback')
 
 
 
@@ -301,8 +316,12 @@ def showFile(request, fileId=False):
                         pageNum += 1
                         fileComponentsList = filename.split(os.sep)
                         newList = []
-                        for number in range(7,10):
-                            newList.append(fileComponentsList[number])
+                        if bOnServer:
+                            for number in range(7,10):
+                                newList.append(fileComponentsList[number])
+                        else:
+                            for number in range(4,7):
+                                newList.append(fileComponentsList[number])
                         lastFileName = os.path.join('/',*newList)
                         newFilename = display_path(lastFileName)
                         
@@ -382,8 +401,13 @@ def covertPDFtoImage(input, output, quality=None, density=None):
     params = []
     #params += ["-unsharp", "0x0.4+0.6+0.008"]
     params += ["-density", str(250)]
-    subprocess.check_call(["convert"] + params + [input] + [output], 
-                                shell=False)
+    if bOnServer:
+        subprocess.check_call(["convert"] + params + [input] + [output], 
+                                    shell=False)
+    else:
+        subprocess.check_call(["convert"] + params + [input] + [output], 
+                                    shell=True)
+        
     return True
 
 

@@ -2,6 +2,13 @@
 import os
 ROOT_PATH = os.path.dirname(__file__)
 
+#Test where the settings file is located (in home computer or on the server)
+testPath = ROOT_PATH.split(os.sep)
+if 'C:' in testPath:
+    bOnServer = False
+else:
+    bOnServer = True
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -11,22 +18,35 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'django_db',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'rdboyett',
-        'PASSWORD': 'dallas20',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+if bOnServer:
+    DATABASES = {
+	'default': {
+	    'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+	    'NAME': 'django_db',                      # Or path to database file if using sqlite3.
+	    # The following settings are not used with sqlite3:
+	    'USER': 'rdboyett',
+	    'PASSWORD': 'dallas20',
+	    'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+	    'PORT': '',                      # Set to empty string for default.
+	}
     }
-}
+else:
+    DATABASES = {
+	'default': {
+	    'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+	    'NAME': 'googleapidb',                      # Or path to database file if using sqlite3.
+	    'USER': 'root',                      # Not used with sqlite3.
+	    'PASSWORD': 'dallas20',                  # Not used with sqlite3.
+	    'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
+	    'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+	}
+    }
 
-# Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['rdboyett.webfactional.com']
+
+if bOnServer:
+    # Hosts/domain names that are valid for this site; required if DEBUG is False
+    # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
+    ALLOWED_HOSTS = ['rdboyett.webfactional.com']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -66,19 +86,24 @@ ADMIN_MEDIA_PREFIX = '/media/admin/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/home/rdboyett/webapps/static_media/'
+if bOnServer:
+    STATIC_ROOT = '/home/rdboyett/webapps/static_media/'
+else:
+    STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATICFILES_DIRS = (
-    '/home/rdboyett/webapps/my_django_app/myproject/myproject/static',
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+if bOnServer:
+    STATICFILES_DIRS = (
+	'/home/rdboyett/webapps/my_django_app/myproject/myproject/static',
+    )
+else:
+    STATICFILES_DIRS = (
+	os.path.join(ROOT_PATH,'static'),
+    )
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -90,9 +115,12 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-with open('/home/rdboyett/webapps/static_media/djangoSecret.txt') as file:
-    for line in file:
-    	SECRET_KEY = str(line.rstrip())
+if bOnServer:
+    with open('/home/rdboyett/webapps/static_media/djangoSecret.txt') as file:
+	for line in file:
+	    SECRET_KEY = str(line.rstrip())
+else:
+    SECRET_KEY = '9gfxd%hk30_54rtil-89-6v=3vphtpflxszp2w^biei6t=bu-5'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
