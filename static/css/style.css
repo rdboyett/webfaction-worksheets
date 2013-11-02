@@ -127,7 +127,7 @@ border-radius: 6px;
     top:14%;
     left: 0;
     width: 13%;
-    min-width: 100px;
+    min-width: 150px;
     background-color: #2A75E8;
     /* default fallback */
     background: rgb(1, 79, 130) transparent;
@@ -182,7 +182,7 @@ border-radius: 6px;
     position: fixed;
     left: 0;
     width: 12%;
-    min-width: 90px;
+    min-width: 140px;
     background-color: #2A75E8;
     /* default fallback */
     background: rgb(1, 79, 130) transparent;
@@ -252,5 +252,4 @@ border-bottom-right-radius: 6px;
 }
 
 .newline{clear: both;}
-
 

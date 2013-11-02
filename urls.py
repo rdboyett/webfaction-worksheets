@@ -47,7 +47,7 @@ urlpatterns += patterns('myproject.googleapi.views',
     (r'^zip/$', 'zipFile'),
     (r'^makeJson/$', 'makeJsonFile'),
     (r'^readJson/$', 'readJsonFile'),
-    (r'^test/$', 'testMedia'),
+    (r'^test/$', 'updateCorrectAnswer'),
     (r'^nextPage/(?P<projectID>(\d+))/(?P<pageNumber>(\d+))/(?P<totalPages>(\d+))/$', 'showNextPage'),
 )
 

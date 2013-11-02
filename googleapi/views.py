@@ -45,7 +45,12 @@ if 'C:' in testPath:
     bOnServer = False
 else:
     bOnServer = True
-
+'''
+if TurnOn.objects.filter(id=1):
+    onOff = TurnOn.objects.get(id=1)
+    if not onOff.onOff:
+        STOP
+'''
 
 # CLIENT_SECRETS, name of a file containing the OAuth 2.0 information for this
 # application, including client_id and client_secret, which are found
@@ -108,6 +113,7 @@ def get_user_info(credentials):
 
 
 def index(request):
+    isItOn()
     credential = None
     
     if credential is None or credential.invalid == True:
@@ -118,6 +124,7 @@ def index(request):
         return HttpResponseRedirect(authorize_url)
 
 def auth_return(request):
+    isItOn()
     if not xsrfutil.validate_token(settings.SECRET_KEY, request.REQUEST['state'],
                                    request.user):
       return  HttpResponseBadRequest()
@@ -162,6 +169,7 @@ def auth_return(request):
 
 
 def getUserInfo(request):
+    isItOn()
     storage = Storage(CredentialsModel, 'id', request.user, 'credential')
     credential = storage.get()
     
@@ -186,6 +194,7 @@ def getUserInfo(request):
     
 
 def driveList(request):
+    isItOn()
     storage = Storage(CredentialsModel, 'id', request.user, 'credential')
     credential = storage.get()
     
@@ -204,6 +213,7 @@ def driveList(request):
         })
     
 def startCreate(request):
+    isItOn()
     if not request.user.is_authenticated():
         return HttpResponseRedirect("/login/")
     elif UserInfo.objects.filter(user=request.user):
@@ -213,6 +223,7 @@ def startCreate(request):
     return HttpResponseRedirect("/login/")
 
 def getFile(request):
+    isItOn()
     if not request.user.is_authenticated():
         return HttpResponseRedirect("/login/")
     return render_to_response('list_files.html', {
@@ -220,10 +231,12 @@ def getFile(request):
 
 
 def display_path(path):
+    isItOn()
     return path.replace("\\", "/")
 
-
+@login_required
 def showFile(request, fileId=False):
+    isItOn()
     if not request.user.is_authenticated():
         return HttpResponseRedirect("/login/")
     userInfo = UserInfo.objects.get(user=request.user)
@@ -265,7 +278,8 @@ def showFile(request, fileId=False):
                 #Download the file's content and store as a PDF file-------------------------------------------------
               resp, content = drive_service._http.request(download_url)
               if resp.status == 200:
-                title = 'worksheet'
+                rawTitle = file['title']
+                title = rawTitle.replace(" ", "")
                 baseFilePath = os.path.join(settings.ROOT_PATH,'media', request.user.first_name+request.user.last_name+str(request.user.id))
                 make_sure_path_exists(baseFilePath)
                 pdfPath = os.path.join(baseFilePath,title + ".pdf")
@@ -293,7 +307,7 @@ def showFile(request, fileId=False):
                     bItConverted = covertPDFtoImage(pdfPath, os.path.join(baseFilePath, title+ '.jpg'))
                     if bItConverted:
                         pdfFile.close()
-                        #os.remove(pdfPath)
+                        os.remove(pdfPath)
                         
                     
                     #store file paths----------------------------------------------------------------------------------
@@ -372,6 +386,7 @@ def showFile(request, fileId=False):
           return HttpResponseRedirect("/login/")   
 
 def showNextPage(request, projectID=False, pageNumber=False, totalPages=False):
+    isItOn()
     if not projectID or not pageNumber:
         return HttpResponseRedirect("/login/")
     userInfo = UserInfo.objects.get(user=request.user)
@@ -603,7 +618,21 @@ def makeJsonFile(user, data ,title):
     return os.path.join(basePath,title + '.json') 
 
 
+def isItOn():
+    if TurnOn.objects.filter(id=1):
+        onOff = TurnOn.objects.get(id=1)
+        if not onOff.onOff:
+            STOP
+    return True
 
 
 
+def updateCorrectAnswer(request):
+    
+    if FormInput.objects.filter(id=5):
+        formInput = FormInput.objects.get(id=5)
+        formInput.correctAnswer = 'testing this'
+        formInput.save()
+    
+    return HttpResponse("done")
 

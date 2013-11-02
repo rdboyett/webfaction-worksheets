@@ -10,6 +10,10 @@ from oauth2client.django_orm import FlowField
 from oauth2client.django_orm import CredentialsField
 
 
+class TurnOn(models.Model):
+  onOff = models.BooleanField()
+  
+
 class CredentialsModel(models.Model):
   id = models.ForeignKey(User, primary_key=True)
   credential = CredentialsField()
@@ -28,12 +32,19 @@ class FormInput(models.Model):
   height = models.FloatField()
   correctAnswer = models.TextField(blank=True, null=True)
   questionNumber = models.IntegerField()
+  
 
 class Project(models.Model):
   title = models.CharField(max_length=100)
   dateTime = models.DateTimeField(auto_now_add=True, blank=True)
   backgroundImages = models.ManyToManyField(BackImage)
   formInputs = models.ManyToManyField(FormInput, blank=True, null=True)
+  
+  def __unicode__(self):
+        return u'%s %s' % (self.title, self.dateTime)
+    
+  class Meta:
+      ordering = ['dateTime', 'title']
 
 class UserInfo(models.Model):
     user = models.ForeignKey(User)
@@ -42,6 +53,12 @@ class UserInfo(models.Model):
     createOrOpen = models.CharField(max_length=45, blank=True, null=True)
     fileID = models.CharField(max_length=100, blank=True, null=True)
 
+
+    def __unicode__(self):
+      return u'%s' % (self.user)
+    
+        
+        
 
 class CredentialsAdmin(admin.ModelAdmin):
     pass

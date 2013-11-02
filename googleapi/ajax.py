@@ -29,3 +29,44 @@ def test(request, userInfo, project_id, pageNumber, inputNumber, left, top, widt
     
     
     return simplejson.dumps({'inputNumber': newFormInput.id, 'questionNumber': newFormInput.questionNumber, 'left': left,'top':top,'width':width,'height':height})
+
+
+
+
+@dajaxice_register
+def updateInputType(request, inputNumber, newInputType):
+    if FormInput.objects.filter(id=inputNumber):
+        formInput = FormInput.objects.get(id=inputNumber)
+        formInput.inputType = newInputType
+        formInput.save()
+    return simplejson.dumps({'inputNumber': inputNumber, 'newInputType': newInputType})
+
+
+
+
+
+@dajaxice_register
+def updateQuestionNumber(request, inputNumber, newQuestionNumber):
+    if FormInput.objects.filter(id=inputNumber):
+        formInput = FormInput.objects.get(id=inputNumber)
+        formInput.questionNumber = newQuestionNumber
+        formInput.save()
+    return simplejson.dumps({'inputNumber': inputNumber, 'newQuestionNumber': newQuestionNumber})
+
+
+
+@dajaxice_register
+def updateCorrectAnswer(request, inputNumber, newCorrectAnswer):
+    if FormInput.objects.filter(id=int(inputNumber)):
+        formInput = FormInput.objects.get(id=int(inputNumber))
+        formInput.correctAnswer = newCorrectAnswer
+        formInput.save()
+    
+    return simplejson.dumps({'inputNumber': inputNumber, 'newCorrectAnswer': newCorrectAnswer})
+
+
+
+
+
+
+
