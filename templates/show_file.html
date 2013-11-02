@@ -23,16 +23,16 @@
 <div id="menu" class="img-right-rounded shadow"><img src="{{ MEDIA_URL }}/static/images/menu.png" width="30" height="30" alt="Menu"/></div>
 <div id="questionMenu" class="img-right-rounded shadow">
     <div class="menuItem newline" style="margin-left: 21%;" >Question Number</div>
-    <input id="questionNumber" class="menuInputs img-rounded menuItem newline" style="margin-left: 37%;" type="number" />
+    <input id="questionNumber" class="menuInputs img-rounded menuItem newline" style="margin-left: 37%;" type="number" min="1" step="1" pattern="\d+"/>
     <div class="menuItem newline" style="margin-left: 27%;" >Answer Type</div>
-    <div id="questionType" class="menuItem newline center" style="width: 100%;">
-        <select class="menuInputs img-rounded" style="margin-left: 0;width: 80%;">
+    <div class="menuItem newline center" style="width: 100%;">
+        <select id="questionType" class="menuInputs img-rounded" style="margin-left: 0;width: 80%;">
             <option value="text">Text</option>
-            <option value="multiple">Multiple Choice</option>
-            <option value="choice">Paragraph</option>
-            <option value="scale">Scale</option>
-            <option value="date">Checkbox</option>
-            <option value="work">Show Your Work Box</option>
+            <option value="number">Number</option>
+            <option value="textarea">Paragraph</option>
+            <option value="select">Multiple Choice</option>
+            <option value="checkbox">Checkbox</option>
+            <option value="work">"Show Your Work" Box</option>
         </select>
     </div>
     <div class="menuItem"></div>
@@ -44,6 +44,43 @@
     <input id="points" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="1" type="text" />
     <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
     <textarea id="helpInput" rows="4" class="menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
+    <div class="menuItem">Help Link...</div>
+    <input id="helpLink" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" type="text" />
+</div>
+<div id="multipleChoicePane" class="highlight typePane img-right-rounded shadow" style="width: 20%;min-width: 275px;" >
+    <div class="menuItem">Answer Choices</div>
+    <input id="choice1" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="1" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
+    <input id="choice2" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="1" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
+    <input id="choice3" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="1" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
+    <input id="choice4" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="1" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
+    <input id="choice5" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="1" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
+    <div class="menuItem newline">Points</div>
+    <input id="points" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="1" type="text" />
+    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
+    <textarea id="helpInput" rows="2" class="menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
+    <div class="menuItem">Help Link...</div>
+    <input id="helpLink" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" type="text" />
+</div>
+<div id="checkboxPane" class="highlight typePane img-right-rounded shadow">
+    <div class="menuItem">Toggle Correct Answer</div>
+    <input id="showCheckbox" type="checkbox" class="menuInputs img-rounded menuItem newline" style="margin-left: 48%;"/>
+    <div class="menuItem newline">Points</div>
+    <input id="points" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="1" type="text" />
+    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
+    <textarea id="helpInput" rows="4" class="menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
+    <div class="menuItem">Help Link...</div>
+    <input id="helpLink" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" type="text" />
+</div>
+<div id="textareaPane" class="highlight typePane img-right-rounded shadow">
+    <div class="menuItem">Keywords to Search</div>
+    <input id="keyword1" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
+    <input id="keyword2" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
+    <input id="keyword3" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
+    <input id="keyword4" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
+    <div class="menuItem">Points per Keyword Match</div>
+    <input id="points" class="menuInputs img-rounded menuItem newline" style="margin-left: 35%;" value="1" type="text" />
+    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
+    <textarea id="helpInput" rows="2" class="menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
     <div class="menuItem">Help Link...</div>
     <input id="helpLink" class="menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" type="text" />
 </div>
@@ -66,7 +103,7 @@
         {% for input in formInputs %}
             {% ifequal input.pageNumber pageNumber %}
             <!--<div id="options{{ input.id }}" class="options_holder img-rounded" style="position: absolute;left: {{ input.left|add:"-1" }}%;top: {{ input.top|add:"-1" }}%;width: {{ input.width|add:"4" }}%; height: {{ input.height|add:"11" }}%"></div>-->
-            <input id="input{{ input.id }}" class="answers highlight" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}"}' type="{{ input.inputType }}" title='answer...' name="" style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">
+            <input id="input{{ input.id }}" class="answers highlight" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}"}' type="{{ input.inputType }}" title='answer...' value="{% if input.correctAnswer %}{{ input.correctAnswer }}{% endif %}" name="" style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">
             {% endifequal %}
         {% endfor %}
     {% endif %}
@@ -86,13 +123,28 @@
     function resizeElements() {
         var screenWidth = $( '#wrapper' ).width();
         var fontPixels = (screenWidth/1267)*22;
+        var fontPixels2 = (screenWidth/1267)*18;
         //$("input").attr('style','font-size:'+fontPixels+'px;line-height:'+fontPixels+'px;');
         //$("input").css('font-size', fontPixels+'px', 'line-height', fontPixels+'px');
         $("input").css({
                 'font-size': fontPixels+'px',
                 'line-height': fontPixels+'px' 
         });
-        var topOfPane = $('#questionMenu').position().top + $('#questionMenu').outerHeight(true);
+	if (fontPixels2 < 14) {
+	    fontPixels2 = 14
+	}
+	$(".menuItem").css({
+                'font-size': fontPixels2+'px',
+                'line-height': fontPixels2+'px' 
+        });
+	$("#questionType").css({
+                'font-size': (fontPixels2-2)+'px',
+                'line-height': (fontPixels2-2)+'px' 
+        });
+	
+        var top = $('#questionMenu').offset().top - $(window).scrollTop();
+	var bottom = $('#questionMenu').outerHeight(false);
+	var topOfPane = top + bottom;
         $('.typePane').css({
                 'top': topOfPane,
         });
@@ -191,7 +243,7 @@
                 'width': data.width + '%',
                 'height': data.height + '%'
         });
-        $("#input"+ data.inputNumber).attr('data-options', '{"answer_id":"'+ data.inputNumber + '", "question_number":"'+ data.questionNumber + '"}');
+        $("#input"+ data.inputNumber).attr('data-options', '{"answer_id":"'+ data.inputNumber + '", "question_number":"'+ data.questionNumber + '", "input_type":"text"}');
         resizeElements();
     }
     
@@ -203,12 +255,28 @@
         var IDnum = elementID.match(/\d+/g);
         $('#'+elementID).css('z-index','1002');
         $('#questionMenu').css('display','block');
+	var answerID = $('#'+elementID).data("options").answer_id;
+	$('#questionNumber').attr('data-options', '{"answer_id":"'+ answerID + '"}');
+	$('#questionNumber').data("options").answer_id = answerID;
+	$('#questionType').val($('#'+elementID).attr('type'));
+	var question_type = $('#'+elementID).data("options").input_type;
+	$( "#questionType" ).val(question_type);
+	console.log(question_type);
         $('#questionNumber').val($('#'+elementID).data("options").question_number);
         resizeElements();
         setTimeout(function() {
             var dInput = $('#'+elementID).val();
             //console.log(dInput);
-            $('.typePane').slideDown( "slow");
+	    if (question_type == 'select') {
+		$('#multipleChoicePane').slideDown( "slow");
+	    }
+	    else if (question_type == 'checkbox') {
+		$('#checkboxPane').slideDown( "slow");
+	    }
+	    else if (question_type == 'textarea') {
+		$('#textareaPane').slideDown( "slow");
+	    }
+	    else{$('#textPane').slideDown( "slow");}
             $('#correctAnswer').text(dInput);
         }, 500);
     });
@@ -235,6 +303,100 @@
             $('#correctAnswer').text(dInput);
         }, 0);
     });
+    
+    /******************CHECK IF QUESTION NUMBER CHANGES****************************/
+    
+    $('#questionNumber').change(function () {
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var newQuestionNumber = $('#questionNumber').val();
+	//alert(inputNumber_id);
+	Dajaxice.myproject.googleapi.updateQuestionNumber(updateQuestionNumber_callback, {'inputNumber': inputNumber_id, 'newQuestionNumber': newQuestionNumber});
+	
+    });
+    
+    function updateQuestionNumber_callback(data){
+	$("#input"+ data.inputNumber).data("options").question_number = data.newQuestionNumber;
+	$("#input"+ data.inputNumber).attr('data-options', '{"answer_id":"'+ data.inputNumber + '", "question_number":"'+ data.newQuestionNumber + '"}');
+	//alert(data.inputNumber);
+    }
+    
+    /******************Enter Correct Answer****************************/
+    
+    $("#default_form").on('change', '.answers', function () {
+        setTimeout(function() {
+            var dInput = $('#'+elementID).val();
+            //console.log(dInput);
+            $('#correctAnswer').text(dInput);
+        }, 1);
+        var elementID = $(this).attr('id');
+        var inputNumber_id = elementID.match(/\d+/g);
+	var newCorrectAnswer = $('#'+elementID).val();
+	if (document.getElementById(elementID).checked == true) {
+	    $('#showCheckbox').prop("checked", true);
+	}
+	else{$('#showCheckbox').prop("checked", false);}
+	//alert(inputNumber_id);
+	Dajaxice.myproject.googleapi.updateCorrectAnswer(updateCorrectAnswer_callback, {'inputNumber': parseInt(inputNumber_id), 'newCorrectAnswer': (newCorrectAnswer).toString()});
+    });
+    
+    function updateCorrectAnswer_callback(data){
+	//alert(data.inputNumber);
+    }
+    
+    /******************Change question Type****************************/
+    $( "#questionType" ).change(function() {
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var inputType = $( "#questionType" ).val();
+	var oldInputType = $('#input'+inputNumber_id).data("options").input_type;
+	
+	Dajaxice.myproject.googleapi.updateInputType(updateInputType_callback, {'inputNumber': parseInt(inputNumber_id), 'newInputType': (inputType).toString()});
+	//alert(inputNumber_id);
+	if (inputType == 'textarea') {
+	    createTextarea('input'+inputNumber_id)
+	}
+	$('#input'+inputNumber_id).get(0).type = inputType;
+	var data = $('#input'+inputNumber_id).data("options");
+	$('#input'+inputNumber_id).data("options").input_type = inputType;
+	$('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+inputType+'"}');
+	$('#input'+inputNumber_id).focus();
+    });
+    
+    function updateInputType_callback() {
+	//code
+    }
+    
+    
+    /*****************************Synchronize Checkboxes*************************/
+    $('#showCheckbox').click(function(){
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	if (document.getElementById('showCheckbox').checked == true) {
+	    $('#input'+inputNumber_id).prop("checked", true);
+	}
+	else{$('#input'+inputNumber_id).prop("checked", false);}
+    });
+    
+    function createTextarea(elementID) {
+	//get the important parts of element
+	var testStyle = $('#'+elementID).attr('style');
+	var data = $('#'+elementID).data("options");
+	//make the old input disappear
+	$('#'+elementID).remove();
+	//$('#'+elementID).css("display","none");
+	//$('#'+elementID).attr('id','noShow');
+	
+	//Now, create the textarea
+	$( "#default_form" ).append( "<textarea id='"+ elementID +"' class='answers highlight' readonly='readonly' data-options=''>Place keywords to search in order to help with grading later.</textarea>" );
+        $('#'+elementID).attr('style',testStyle);
+        //$('#'+elementID).attr('data-options', '{"answer_id":"'+ options.answer_id + '", "question_number":"'+ options.question_number + '"}');
+	
+	$('#'+elementID).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"textarea"}');
+	
+        resizeElements();
+        
+	
+	//console.log(style);
+	//style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%"
+    }
     
     
     
