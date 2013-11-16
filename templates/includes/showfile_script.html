@@ -1,0 +1,602 @@
+ 
+<script>
+    $( document ).ready(function() {
+        resizeElements();
+    });
+    $( window ).resize(function() {
+        resizeElements();
+      });
+    
+    function resizeElements() {
+        var screenWidth = $( '#wrapper' ).width();
+        var fontPixels = (screenWidth/1267)*22;
+        var fontPixels2 = (screenWidth/1267)*18;
+        //$("input").attr('style','font-size:'+fontPixels+'px;line-height:'+fontPixels+'px;');
+        //$("input").css('font-size', fontPixels+'px', 'line-height', fontPixels+'px');
+        $("input").css({
+                'font-size': fontPixels+'px',
+                'line-height': fontPixels+'px' 
+        });
+	$("textarea").css({
+                'font-size': fontPixels+'px',
+                'line-height': fontPixels+'px' 
+        });
+	$("select").css({
+                'font-size': fontPixels+'px',
+                'line-height': fontPixels+'px' 
+        });
+	if (fontPixels2 < 14) {
+	    fontPixels2 = 14
+	}
+	$(".menuItem").css({
+                'font-size': fontPixels2+'px',
+                'line-height': fontPixels2+'px' 
+        });
+	$("#questionType").css({
+                'font-size': (fontPixels2-2)+'px',
+                'line-height': (fontPixels2-2)+'px' 
+        });
+	
+        var top = $('#questionMenu').offset().top - $(window).scrollTop();
+	var bottom = $('#questionMenu').outerHeight(false);
+	var topOfPane = top + bottom;
+        $('.typePane').css({
+                'top': topOfPane,
+        });
+        
+        
+    }
+    
+    /* Dajaxice Calls------------------------------------------------------------------------
+     */
+    /*$('#wrapper img').click(function(){
+        Dajaxice.myproject.googleapi.test(test_callback, {'test_id':'it worked'});
+    });*/
+    
+    var leftPercentage = 0;
+    var topPercentage = 0;
+    var widthPercentage = 0;
+    var heightPercentage = 0;
+    
+    $('#wrapper img').imgAreaSelect({
+        fadeSpeed: false,
+        handles: true,
+        onSelectEnd: function(img, selection){
+            if (!selection.width || !selection.height){
+                return;
+            }
+            $('.imgareaselect-selection').attr( 'id', 'enter_area');
+            var imageWidth = $( '#wrapper' ).width();
+            leftPercentage = (selection.x1/imageWidth)*100;
+            var imageHeight = $( '#wrapper' ).height();
+            topPercentage = (selection.y1/imageHeight)*100;
+            widthPercentage = (selection.width/imageWidth)*100;
+            heightPercentage = (selection.height/imageHeight)*100;
+            
+            
+            //alert('left: ' + leftPercentage + '%, top: '+ topPercentage+ '%, width: ' + widthPercentage + '%, height: ' + heightPercentage + '%...');
+            
+        }
+    });
+    
+    $(document).keydown(function (e) {
+        if (e.keyCode == 13){
+            e.preventDefault();
+            if ($('#enter_area').is(":visible")) {
+                //alert('selection is visible');
+                runSelection();
+            }
+        }
+    });
+    
+    $( document ).dblclick(function() {
+            if ($('#enter_area').is(":visible")) {
+                //alert('selection is visible');
+                runSelection();
+            }
+        //alert('left: ' + leftPercentage + '%, top: '+ topPercentage+ '%, width: ' + widthPercentage + '%, height: ' + heightPercentage + '%...');
+    });
+    
+    function runSelection() {
+        $('.imgareaselect-outer').css('background-color','rgb(152,128,5)');
+        $('#wrapper img').imgAreaSelect({
+            fadeSpeed: 1000,
+            hide: true,
+            onSelectStart: doThisNext,
+        });
+        $('#wrapper img').imgAreaSelect({
+            fadeSpeed: false,
+        });
+        var inputNumber = ($("form input").length)+1;
+        Dajaxice.myproject.googleapi.test(test_callback, {'userInfo': '{{ userInfo.id }}', 'project_id':'{{ newProject.id }}', 'pageNumber': '{{ pageNumber }}', 'inputNumber': inputNumber, 'left': leftPercentage,'top':topPercentage,'width':widthPercentage,'height':heightPercentage});
+        
+    }
+    
+    function doThisNext(callback) {
+        $('#wrapper img').imgAreaSelect({
+            fadeSpeed: false,
+        }); 
+        $('.imgareaselect-outer').css('background-color','rgb(0,0,0)');
+        
+        //callback();
+    }
+    
+    
+    
+    //Dajaxice.myproject.teacherTools.setQuickLink(setQuickLink_callback, {'list_id':listId, 'link_id':parseInt(linkID), 'user_id':parseInt(userID), 'sort_number':parseInt(sortNumber)});
+    /*--------------------for dajaxice callbacks------------------------------------*/
+	
+    function test_callback(data){
+        //alert('left: ' + data.left + '%, top: '+ data.top+ '%, width: ' + data.width + '%, height: ' + data.height + '%...');
+
+        $( "#default_form" ).append( "<input id='input"+ data.inputNumber +"' class='answers highlight' data-options='' type='text' title='answer...' name=''>" );
+        $("#input"+ data.inputNumber).css({
+                'position': 'absolute',
+                'z-index': '1000',
+                'left': data.left + '%',
+                'top': data.top+ '%',
+                'width': data.width + '%',
+                'height': data.height + '%'
+        });
+        $("#input"+ data.inputNumber).attr('data-options', '{"answer_id":"'+ data.inputNumber + '", "question_number":"'+ data.questionNumber + '", "input_type":"text", "points":"1", "help_text":"", "help_link":""}');
+        resizeElements();
+    }
+    
+    /*****************************Put Answer info**************************************************/
+    $('#default_form').on('focus', '.answers', function () {
+        //alert('here');
+        $('.typePane').hide();
+        var elementID = $(this).attr('id');
+        var IDnum = elementID.match(/\d+/g);
+        $('#'+elementID).css('z-index','1002');
+        $('#questionMenu').css('display','block');
+	var answerID = $('#'+elementID).data("options").answer_id;
+	$('#questionNumber').attr('data-options', '{"answer_id":"'+ answerID + '"}');
+	$('#questionNumber').data("options").answer_id = answerID;
+	$('#questionType').val($('#'+elementID).attr('type'));
+	var question_type = $('#'+elementID).data("options").input_type;
+	$( "#questionType" ).val(question_type);
+	//console.log(question_type);
+        $('#questionNumber').val($('#'+elementID).data("options").question_number);
+        resizeElements();
+        setTimeout(function() {
+            var dInput = $('#'+elementID).val();
+            //console.log(dInput);
+	    if (question_type == 'select') {
+		$('#multipleChoicePane').slideDown( "slow");
+		for (var j=1; j<6; j++) {
+		    $('#choice'+j).val($('#'+elementID).data("choice"+j));
+		}
+		var optionSelected = $('#'+elementID).val();
+		var optionValueNumber = optionSelected.match(/\d+/g);
+		$(".radioChoice").prop('checked',false);
+		$('#multipleChoicePane .radioChoice[value="'+optionValueNumber+'"]').prop('checked',true);
+		
+		
+	    }
+	    else if (question_type == 'checkbox') {
+		$('#checkboxPane').slideDown( "slow");
+	    }
+	    else if (question_type == 'textarea') {
+		$('#textareaPane').slideDown( "slow");
+		for (var j=1; j<5; j++) {
+		    $('#keyword'+j).val($('#'+elementID).data("keyword"+j));
+		}
+	    }
+	    else{
+		$('#textPane').slideDown( "slow");
+	    }
+            $('#correctAnswer').text(dInput);
+        }, 500);
+	var currentPoints = $('#'+elementID).data("options").points;
+	var currentHelpText = $('#'+elementID).data("options").help_text;
+	var currentHelpLink = $('#'+elementID).data("options").help_link;
+	$('.helpInput').val(currentHelpText);
+	$('.points').val(currentPoints);
+	$('.helpLink').val(currentHelpLink);
+	//console.log(currentPoints);
+	//console.log("Points Input: "+$("#points").val());
+    });
+    
+    
+    
+    $('#backgroundImage').click(function(){
+        //alert('background');
+        $('.answers').blur();
+        var elementID = $(this).attr('id');
+        var IDnum = elementID.match(/\d+/g);
+        $('#'+elementID).css('z-index','1000');
+        $('#questionMenu').hide("slow");
+        $('.typePane').hide("slow");
+    });
+
+
+    $("#default_form").on('keydown', '.answers', function() {
+        //Interrupt the execution thread to allow input to update
+        var elementID = $(this).attr('id');
+        setTimeout(function() {
+            var dInput = $('#'+elementID).val();
+            //console.log(dInput);
+            $('#correctAnswer').text(dInput);
+        }, 0);
+    });
+    
+    /******************CHECK IF QUESTION NUMBER CHANGES****************************/
+    
+    $('#questionNumber').change(function () {
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var newQuestionNumber = $('#questionNumber').val();
+	//alert(inputNumber_id);
+	Dajaxice.myproject.googleapi.updateQuestionNumber(updateQuestionNumber_callback, {'inputNumber': inputNumber_id, 'newQuestionNumber': newQuestionNumber});
+	
+    });
+    
+    function updateQuestionNumber_callback(data){
+	$("#input"+ data.inputNumber).data("options").question_number = data.newQuestionNumber;
+	$("#input"+ data.inputNumber).attr('data-options', '{"answer_id":"'+ data.inputNumber + '", "question_number":"'+ data.newQuestionNumber + '", "input_type":"'+ data.inputType +'", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+data.help_link+'"}');
+	//alert(data.inputNumber);
+    }
+    
+    /******************Enter Correct Answer****************************/
+    
+    $("#default_form").on('change', '.answers', function () {
+        setTimeout(function() {
+            var dInput = $('#'+elementID).val();
+            //console.log(dInput);
+            $('#correctAnswer').text(dInput);
+        }, 1);
+        var elementID = $(this).attr('id');
+        var inputNumber_id = elementID.match(/\d+/g);
+	var newCorrectAnswer = $('#'+elementID).val();
+	if (document.getElementById(elementID).checked == true) {
+	    $('#showCheckbox').prop("checked", true);
+	}
+	else{$('#showCheckbox').prop("checked", false);}
+	//alert(inputNumber_id);
+	Dajaxice.myproject.googleapi.updateCorrectAnswer(updateCorrectAnswer_callback, {'inputNumber': parseInt(inputNumber_id), 'newCorrectAnswer': (newCorrectAnswer).toString()});
+    });
+    
+    function updateCorrectAnswer_callback(data){
+	//alert(data.inputNumber);
+    }
+    
+    /******************Change question Type****************************/
+    $( "#questionType" ).change(function() {
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var inputType = $( "#questionType" ).val();
+	var oldInputType = $('#input'+inputNumber_id).data("options").input_type;
+	
+	Dajaxice.myproject.googleapi.updateInputType(updateInputType_callback, {'inputNumber': parseInt(inputNumber_id), 'newInputType': (inputType).toString()});
+	//alert(inputNumber_id);
+	if (inputType == 'textarea') {
+	    createTextarea('input'+inputNumber_id);
+	}
+	else if (inputType == 'select') {
+	    createSelect('input'+inputNumber_id);
+	}
+	else if (inputType == 'work') {
+	    createWork('input'+inputNumber_id);
+	}
+	else if ((inputType == 'text' || inputType == 'number' || inputType == 'checkbox') && (oldInputType == 'textarea' || oldInputType == 'select' || oldInputType == 'work')) {
+	    //Re-create the default input type
+	    createDefaultInput('input'+inputNumber_id, inputType);
+	    /*
+	    $('#input'+inputNumber_id).data("options").input_type = inputType;
+	    $('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+inputType+'", "points":"'+data.points+'"}');
+	    */
+	}
+	else{
+	    $('#input'+inputNumber_id).get(0).type = inputType;
+	    var data = $('#input'+inputNumber_id).data("options");
+	    $('#input'+inputNumber_id).data("options").input_type = inputType;
+	    $('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+inputType+'", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+data.help_link+'"}');
+	}
+	$('#input'+inputNumber_id).focus();
+    });
+    
+    function updateInputType_callback(data) {
+	//console.log("Update Callback Complete");
+    }
+    
+    
+    /*****************************Synchronize Checkboxes*************************/
+    $('#showCheckbox').click(function(){
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	if (document.getElementById('showCheckbox').checked == true) {
+	    $('#input'+inputNumber_id).prop("checked", true);
+	}
+	else{$('#input'+inputNumber_id).prop("checked", false);}
+    });
+    
+    /****************************Create Inputs Area*********************************/
+    function createTextarea(elementID) {
+	//get the important parts of element
+	var testStyle = $('#'+elementID).attr('style');
+	var data = $('#'+elementID).data("options");
+	var choice = [];
+	for (var i=0;i<5;i++) {
+	    choice[i] = $('#'+elementID).data("choice"+(i+1));
+	    if (!choice[i]) {
+		choice[i] = $('#'+elementID).data("keyword"+(i+1));
+	    }
+	    //console.log("Create Textarea Choice "+(i+1)+" = "+choice[i]);
+	}
+	console.log($('#'+elementID).data("choice1"));
+	//make the old input disappear
+	$('#'+elementID).remove();
+	//$('#'+elementID).css("display","none");
+	//$('#'+elementID).attr('id','noShow');
+	
+	//Now, create the textarea
+	$( "#default_form" ).append( "<textarea id='"+ elementID +"' class='answers highlight img-rounded' readonly='readonly' data-options=''>Place keywords to search in order to help with grading later.</textarea>" );
+        $('#'+elementID).attr('style',testStyle);
+        //$('#'+elementID).attr('data-options', '{"answer_id":"'+ options.answer_id + '", "question_number":"'+ options.question_number + '"}');
+	
+	$('#'+elementID).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"textarea", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+data.help_link+'"}');
+	
+		for (var j=1; j<6; j++) {
+		    if (choice[j-1]) {
+			$('#'+elementID).data("choice"+j, choice[j-1]);
+			//console.log("Choice"+j+" saved as: "+choice[j-1]);
+			$('#'+elementID).data("keyword"+j, choice[j-1]);
+		    }
+		}
+	$('#'+elementID).focus();
+        resizeElements();
+        
+	
+	//console.log(style);
+	//style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%"
+    }
+    
+    
+    function createSelect(elementID) {
+	//get the important parts of element
+	var testStyle = $('#'+elementID).attr('style');
+	var data = $('#'+elementID).data("options");
+	var choice = [];
+	for (var i=0;i<5;i++) {
+	    choice[i] = $('#'+elementID).data("choice"+(i+1));
+	    if (!choice[i]) {
+		choice[i] = $('#'+elementID).data("keyword"+(i+1));
+	    }
+	    //console.log("Create Select Choice "+(i+1)+" = "+choice[i]);
+	}
+	//make the old input disappear
+	$('#'+elementID).remove();
+	
+	//Now, create the textarea
+	$( "#default_form" ).append( "<select id='"+ elementID +"' class='answers highlight img-rounded' data-options=''><option id='option0' value='none'>Select One...</option></select>" );
+        $('#'+elementID).attr('style',testStyle);
+	
+		for (var j=1; j<5; j++) {
+		    if (choice[j-1]) {
+			$('#'+elementID).append("<option id='option"+j+"' value='option"+j+"' >"+ choice[j-1] +"</option>");
+			$('#'+elementID).data("choice"+j, choice[j-1]);
+			$('#'+elementID).data("keyword"+j, choice[j-1]);
+		    }
+		}
+	
+	$('#'+elementID).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"select", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+data.help_link+'"}');
+	
+	$('#'+elementID).focus();
+        resizeElements();
+    }
+    function createWork(elementID) {
+	//get the important parts of element
+	var testStyle = $('#'+elementID).attr('style');
+	var data = $('#'+elementID).data("options");
+	var choice = [];
+	for (var i=0;i<5;i++) {
+	    choice[i] = $('#'+elementID).data("choice"+(i+1));
+	    if (!choice[i]) {
+		choice[i] = $('#'+elementID).data("keyword"+(i+1));
+	    }
+	    //console.log("Create Work Choice "+(i+1)+" = "+choice[i]);
+	}
+	//make the old input disappear
+	$('#'+elementID).remove();
+	
+	//Now, create the textarea
+	$( "#default_form" ).append( "<textarea id='"+ elementID +"' class='answers highlight img-rounded' readonly='readonly' data-options=''>Work Area will be activated for student use...</textarea>" );
+        $('#'+elementID).attr('style',testStyle);
+        //$('#'+elementID).attr('data-options', '{"answer_id":"'+ options.answer_id + '", "question_number":"'+ options.question_number + '"}');
+	
+	$('#'+elementID).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"work", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+data.help_link+'"}');
+	
+		for (var j=1; j<6; j++) {
+		    if (choice[j-1]) {
+			$('#'+elementID).data("choice"+j, choice[j-1]);
+			$('#'+elementID).data("keyword"+j, choice[j-1]);
+			//console.log("Choice"+j+" saved as: "+choice[j-1]);
+		    }
+		}
+	$('#'+elementID).focus();
+        resizeElements();
+        
+    }
+    
+    function createDefaultInput(elementID, inputType) {
+	//get the important parts of element
+	var testStyle = $('#'+elementID).attr('style');
+	var data = $('#'+elementID).data("options");
+	var choice = [];
+	for (var i=0;i<5;i++) {
+	    choice[i] = $('#'+elementID).data("choice"+(i+1));
+	    if (!choice[i]) {
+		choice[i] = $('#'+elementID).data("keyword"+(i+1));
+	    }
+	    //console.log("Create Default Choice "+(i+1)+" = "+choice[i]);
+	}
+	//make the old input disappear
+	$('#'+elementID).remove();
+	//$('#'+elementID).css("display","none");
+	//$('#'+elementID).attr('id','noShow');
+	
+	//Now, create the textarea
+	$( "#default_form" ).append( "<input id='"+ elementID +"' class='answers highlight' data-options='' type='"+inputType+"' title='answer...' name=''>" );
+        $('#'+elementID).attr('style',testStyle);
+        //$('#'+elementID).attr('data-options', '{"answer_id":"'+ options.answer_id + '", "question_number":"'+ options.question_number + '"}');
+	
+	$('#'+elementID).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+inputType+'", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+data.help_link+'"}');
+	
+		for (var j=1; j<6; j++) {
+		    if (choice[j-1]) {
+			$('#'+elementID).data("choice"+j, choice[j-1]);
+			$('#'+elementID).data("keyword"+j, choice[j-1]);
+			//console.log("Choice"+j+" saved as: "+choice[j-1]);
+		    }
+		}
+	$('#'+elementID).focus();
+	
+        resizeElements();
+        
+	
+	//console.log(style);
+	//style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%"
+    }
+    
+    /**************************Change Points Value************************************/
+    $( ".points" ).change(function() {
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var data = $('#input'+inputNumber_id).data("options");
+	var newPoints = $("#points").val();
+	console.log("Input Number: "+inputNumber_id+", Data: "+data+", New Point Value: "+newPoints);
+	Dajaxice.myproject.googleapi.updatePoints(updatePoints_callback, {'inputNumber': parseInt(inputNumber_id), 'newPoints': parseInt(newPoints)});
+	$('#input'+inputNumber_id).data("options").points = newPoints;
+	$('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+data.input_type+'", "points":"'+newPoints+'", "help_text":"'+data.help_text+'", "help_link":"'+data.help_link+'"}');
+    });
+    function updatePoints_callback(data) {
+	//code
+    }
+    
+    /************************HelpText Input*********************************************/
+    $( ".helpInput" ).change(function() {
+        var helpID = $(this).attr('id');
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var data = $('#input'+inputNumber_id).data("options");
+	var newHelpText = $("#"+helpID).val();
+	Dajaxice.myproject.googleapi.updateHelpText(updateHelpText_callback, {'inputNumber': parseInt(inputNumber_id), 'newHelpText': newHelpText});
+	$('#input'+inputNumber_id).data("options").help_text = newHelpText;
+	$('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+data.input_type+'", "points":"'+data.points+'", "help_text":"'+newHelpText+'", "help_link":"'+data.help_link+'"}');
+    });
+    function updateHelpText_callback(data) {
+	//code
+    }
+    
+    /************************HelpLink Input*********************************************/
+    $( ".helpLink" ).change(function() {
+        var helpID = $(this).attr('id');
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var data = $('#input'+inputNumber_id).data("options");
+	var newHelpLink = $("#"+helpID).val();
+	if (!newHelpLink == '') {
+	    if(!/^(https?|ftp):\/\//i.test(newHelpLink)) {
+		newHelpLink = 'http://'+newHelpLink;
+	    }
+	    if (isValidURL(newHelpLink)) {
+		$("#"+helpID).attr('style','background-color:none; color:black;');
+		Dajaxice.myproject.googleapi.updateHelpLink(updateHelpLink_callback, {'inputNumber': parseInt(inputNumber_id), 'newHelpLink': newHelpLink});
+		$('#input'+inputNumber_id).data("options").help_link = newHelpLink;
+		$('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+data.input_type+'", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+newHelpLink+'"}');
+		//console.log("isValid");
+	    }else{
+		$("#"+helpID).attr('style','background-color:#F8E0E0; color:red;');
+		newHelpLink = "Not a Valid URL";
+		$('#input'+inputNumber_id).data("options").help_link = newHelpLink;
+		$('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+data.input_type+'", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+newHelpLink+'"}');
+		//console.log("Not Valid");
+	    }
+	}else{
+	    $("#"+helpID).attr('style','background-color:none; color:black;');
+	    Dajaxice.myproject.googleapi.updateHelpLink(updateHelpLink_callback, {'inputNumber': parseInt(inputNumber_id), 'newHelpLink': newHelpLink});
+	    $('#input'+inputNumber_id).data("options").help_link = newHelpLink;
+	    $('#input'+inputNumber_id).attr('data-options', '{"answer_id":"'+ data.answer_id + '", "question_number":"'+ data.question_number + '", "input_type":"'+data.input_type+'", "points":"'+data.points+'", "help_text":"'+data.help_text+'", "help_link":"'+newHelpLink+'"}');
+		
+	}
+    });
+    function updateHelpLink_callback(data) {
+	//code
+    }
+    
+    function isValidURL(url){
+    var RegExp = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/;
+
+    if(RegExp.test(url)){
+        return true;
+    }else{
+        return false;
+    }
+    } 
+    
+    
+    /************************Paragraph keywords Input*********************************************/
+    $( ".keyword" ).change(function() {
+        var keywordID = $(this).attr('id');
+        var optionIDNumber = keywordID.match(/\d+/g);
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var data = $('#input'+inputNumber_id).data("options");
+	var newKeyword = $("#"+keywordID).val();
+	//console.log('keyword ID: '+keywordID+' OptionID number: '+optionIDNumber+' Ney Keyword: '+newKeyword);
+	Dajaxice.myproject.googleapi.updateKeyword(updateKeyword_callback, {'inputNumber': parseInt(inputNumber_id), 'optionIDNumber': parseInt(optionIDNumber), 'newKeyword': newKeyword});
+	$('#input'+inputNumber_id).data(keywordID, newKeyword);
+    });
+    function updateKeyword_callback(data) {
+	console.log("Keyword Update complete");
+    }
+    
+    /************************Multiplechoice Choices Input*********************************************/
+    $( ".choice").change(function() {
+        var choiceID = $(this).attr('id');
+        var optionIDNumber = choiceID.match(/\d+/g);
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var data = $('#input'+inputNumber_id).data("options");
+	var newChoice = $("#"+choiceID).val();
+	//console.log('keyword ID: '+keywordID+' OptionID number: '+optionIDNumber+' Ney Keyword: '+newKeyword);
+	Dajaxice.myproject.googleapi.updateChoice(updateChoice_callback, {'inputNumber': parseInt(inputNumber_id), 'optionIDNumber': parseInt(optionIDNumber), 'newChoice': newChoice});
+	$('#input'+inputNumber_id).data(choiceID, newChoice);
+	
+	if ($('#input'+inputNumber_id+' #option'+optionIDNumber).length) {
+	    console.log(choiceID+' exists');
+	    $('#input'+inputNumber_id+' #option'+optionIDNumber).text(newChoice)
+	}else{
+	    console.log(choiceID+' Does not exists');
+	    $('#input'+inputNumber_id).append("<option id='option"+optionIDNumber+"' value='option"+optionIDNumber+"' >"+ newChoice +"</option>");
+	}
+	
+    });
+    function updateChoice_callback(data) {
+	console.log("Choice Update complete");
+    }
+    
+    /************************Multiplechoice Correct Answer Input*********************************************/
+    $( ".radioChoice").change(function() {
+	var inputNumber_id = $('#questionNumber').data("options").answer_id;
+	var correctAnswer = $('#multipleChoicePane input[name=correctChoice]:checked').val();
+	var newCorrectAnswer = 'option'+correctAnswer;
+	console.log(newCorrectAnswer);
+	$('#input'+inputNumber_id).val('option'+correctAnswer);
+	Dajaxice.myproject.googleapi.updateCorrectAnswer(updateCorrectAnswer_callback, {'inputNumber': parseInt(inputNumber_id), 'newCorrectAnswer': (newCorrectAnswer).toString()});
+    });
+
+    $("#default_form").on('change', 'select', function () {
+        var choiceID = $(this).attr('id');
+	var optionSelected = $("#"+choiceID).val();
+        var optionValueNumber = optionSelected.match(/\d+/g);
+	console.log("choiceID: "+choiceID+", option selected: "+optionSelected+", valueNumber: "+optionValueNumber);
+	$(".radioChoice").prop('checked',false);
+	$('#multipleChoicePane input[value="'+optionValueNumber+'"]').prop('checked',true);
+	for (var i=1;i<6;i++) {
+	    console.log('Option Checked Value Number '+i+': '+$('input[value="'+i+'"]').prop('checked'));
+	}
+    });
+
+    
+    
+    
+    
+    
+    
+    
+    
+</script>

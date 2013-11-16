@@ -30,8 +30,16 @@ class FormInput(models.Model):
   top = models.FloatField()
   width = models.FloatField()
   height = models.FloatField()
+  option1 = models.CharField(max_length=45, blank=True, null=True)
+  option2 = models.CharField(max_length=45, blank=True, null=True)
+  option3 = models.CharField(max_length=45, blank=True, null=True)
+  option4 = models.CharField(max_length=45, blank=True, null=True)
+  option5 = models.CharField(max_length=45, blank=True, null=True)
   correctAnswer = models.TextField(blank=True, null=True)
   questionNumber = models.IntegerField()
+  points = models.IntegerField(default=1)
+  helpText = models.TextField(blank=True, null=True)
+  helpLink = models.URLField(blank=True, null=True)
   
 
 class Project(models.Model):

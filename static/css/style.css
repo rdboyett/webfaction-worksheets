@@ -8,13 +8,16 @@ html, body {
         -o-background-size: cover;
         background-size: cover;
     font-family: Arial, sans-serif
+    /*small_fabric.png
+background: url(decoration.png) left top no-repeat, url(ribbon.png) right bottom no-repeat, url(old_paper.jpg) left top no-repeat;
+    */
 }
 #wrapper{
-    border:1px solid #000;
     margin: 0 auto;
     width: 80%;
     min-width: 500px;
     position:relative;
+    margin-top:1%;
 }
 #wrapper img{
     width:100%;
@@ -30,9 +33,6 @@ html, body {
     text-align:center;
     padding:0;
     color: #000;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
 }
 
 .highlight{
@@ -84,12 +84,6 @@ html, body {
     display: none;
 }
 
-
-.img-rounded {
--webkit-border-radius: 6px;
--moz-border-radius: 6px;
-border-radius: 6px;
-}
 
 #menu{
     cursor: pointer;
@@ -202,11 +196,28 @@ border-radius: 6px;
     
 }
 
-#correctAnswer, #helpInput, #helpLink{
+#correctAnswer, .helpInput, .helpLink{
     width: 93%;
 }
-#points{
+#points, #multPoints, #checkPoints, #areaPoints{
     width: 25%;
+}
+#multPoints{
+    width: 15%;
+}
+
+
+.img-rounded {
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+}
+
+
+.large-img-rounded {
+-webkit-border-radius: 20px;
+-moz-border-radius: 20px;
+border-radius: 20px;
 }
 
 .img-left-rounded {
@@ -253,3 +264,11 @@ border-bottom-right-radius: 6px;
 
 .newline{clear: both;}
 
+.picker-dialog{
+-webkit-border-radius: 20px;
+-moz-border-radius: 20px;
+border-radius: 20px;
+    -moz-box-shadow: 2px 0px 22px #000000;
+    -webkit-box-shadow: 2px 0px 22px #000000;
+    box-shadow: 2px 0px 22px #000000;
+}

@@ -1,5 +1,5 @@
 import os
-from django.conf.urls.defaults import *
+from  django.conf.urls import *
 from django.contrib.auth.views import login, logout
 from django.contrib import admin
 from django.views.static import * 

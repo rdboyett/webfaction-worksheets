@@ -159,8 +159,15 @@ def auth_return(request):
     if user:
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user)
-    
-    userInfo = UserInfo.objects.get(user=user)
+        
+    if UserInfo.objects.filter(user=user):
+        userInfo = UserInfo.objects.get(user=user)
+    else:
+        userInfo = UserInfo.objects.create(
+            user = user,
+            avatar = avatar,
+            createOrOpen = '/getFile/',
+        )
     
     storage = Storage(CredentialsModel, 'id', user, 'credential')
     storage.put(credential)
