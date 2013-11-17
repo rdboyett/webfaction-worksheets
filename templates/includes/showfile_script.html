@@ -552,7 +552,7 @@
 	var inputNumber_id = $('#questionNumber').data("options").answer_id;
 	var data = $('#input'+inputNumber_id).data("options");
 	var newChoice = $("#"+choiceID).val();
-	//console.log('keyword ID: '+keywordID+' OptionID number: '+optionIDNumber+' Ney Keyword: '+newKeyword);
+	console.log('keyword ID: '+choiceID+' OptionID number: '+optionIDNumber+' Ney Keyword: '+newChoice);
 	Dajaxice.myproject.googleapi.updateChoice(updateChoice_callback, {'inputNumber': parseInt(inputNumber_id), 'optionIDNumber': parseInt(optionIDNumber), 'newChoice': newChoice});
 	$('#input'+inputNumber_id).data(choiceID, newChoice);
 	
