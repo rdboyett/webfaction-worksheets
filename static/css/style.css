@@ -2,27 +2,48 @@ html, body {
     margin: 0;
     width: 100%;
     height: 100%;
-    background:-webkit-gradient(linear, 50% 72%, 49% 2%, from(#2BFFCA), to(#2E46FF)) no-repeat center center fixed;
-        -webkit-background-size: cover;
+    background:url(../images/bg-tissue.png),-webkit-gradient(linear, 50% 72%, 49% 2%, from(#424242), to(#A4A4A4)) no-repeat center center fixed;
+        /*-webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-    font-family: Arial, sans-serif
+        */
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-seri;
+    -webkit-font-smoothing: antialiased;
     /*small_fabric.png
 background: url(decoration.png) left top no-repeat, url(ribbon.png) right bottom no-repeat, url(old_paper.jpg) left top no-repeat;
     */
 }
+
+#app-bar-content{
+position: fixed;
+top: 0px;
+width: 100%;
+height: 45px;
+margin: 0;
+white-space: nowrap;
+z-index: 2000;
+
+    /* default fallback */
+    background: rgb(0, 0, 0) transparent;
+    /* nice browsers */
+    background: rgba(0, 0, 0, 0.8);
+    /* IE 6/7 */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
+    /* IE8 */    
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
+}
+
 #wrapper{
     margin: 0 auto;
     width: 80%;
     min-width: 500px;
     position:relative;
-    margin-top:1%;
+    margin-top:55px;
 }
 #wrapper img{
     width:100%;
     height:100%;
-    border:1px solid blue;
     
 	    -moz-box-shadow: 2px 0px 22px #000000;
 	    -webkit-box-shadow: 2px 0px 22px #000000;
@@ -33,7 +54,12 @@ background: url(decoration.png) left top no-repeat, url(ribbon.png) right bottom
     text-align:center;
     padding:0;
     color: #000;
+    
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
 }
+
 
 .highlight{
     /* default fallback */
@@ -45,7 +71,6 @@ background: url(decoration.png) left top no-repeat, url(ribbon.png) right bottom
     /* IE8 */    
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
 }
-.white{background-color: #fff;}
 
 	.nav_button_holder{
 	    top: 20%;
