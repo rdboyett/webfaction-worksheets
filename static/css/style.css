@@ -17,7 +17,6 @@ background: url(decoration.png) left top no-repeat, url(ribbon.png) right bottom
 
 #app-bar-content{
 position: fixed;
-top: 0px;
 width: 100%;
 height: 45px;
 margin: 0;
@@ -32,6 +31,32 @@ z-index: 2000;
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
     /* IE8 */    
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
+}
+
+#page-holder{
+    border: solid 1px #fff;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#wrapper-holder{
+    float:right;
+    display: inline-block;
+    position: relative;
+    border: solid 1px green;
+    margin: 0 auto;
+    width: 100%;
+    padding-right: 270px;
+}
+
+#sidebar-content{
+    background-color: red;
+position: fixed !important;
+top: 0;
+right: 0;
+z-index: 2500;
+height: 100%;
+width: 270px;
 }
 
 #wrapper{
