@@ -21,10 +21,12 @@
 </head>
 
 <body>
-<section id="page-holder">
-<section id="sidebar-content">test</section>
 <section id="wrapper-holder">
-<div id="app-bar-content"><img src="{{ MEDIA_URL }}/static/images/menu.png" width="30" height="30" alt="Menu"/></div>
+<div id="app-bar-content">
+    <img id="barLogo" src="{{ MEDIA_URL }}/static/images/barLogo.png" width="193" height="38" alt="Menu"/>
+    <img id="downLogo" src="{{ MEDIA_URL }}/static/images/down.png" width="29" height="29" alt="Menu"/>
+    <img id="menuLogo" class="shadow" src="{{ MEDIA_URL }}/static/images/menu.png" width="29" height="29" alt="Menu"/>
+</div>
 <div id="questionMenu" class="img-right-rounded shadow">
     <div class="menuItem newline" style="margin-left: 21%;" >Question Number</div>
     <input id="questionNumber" class="menuInputs img-rounded menuItem newline" style="margin-left: 37%;" type="number" min="1" step="1" pattern="\d+"/>
@@ -172,7 +174,7 @@
     </form>
     
     
-</section>
+<section id="sidebar-content">test</section>
 </section>
 </section>
        

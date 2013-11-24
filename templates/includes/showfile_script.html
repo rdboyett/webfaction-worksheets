@@ -8,6 +8,9 @@
       });
     
     function resizeElements() {
+	var wholeScreenWidth = $('body').width();
+	$('#wrapper-holder').width(wholeScreenWidth-270);
+	$('#app-bar-content').width(wholeScreenWidth-270);
         var screenWidth = $( '#wrapper' ).width();
         var fontPixels = (screenWidth/1267)*22;
         var fontPixels2 = (screenWidth/1267)*18;
