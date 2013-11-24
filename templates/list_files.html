@@ -31,8 +31,6 @@
             setCallback(pickerCallback).
             build();
         */
-        var origin = window.location.protocol + '//' + window.location.host;
-        console.log(origin);
         var viewDocs = new google.picker.View(google.picker.ViewId.DOCUMENTS);
         var viewPDFs = new google.picker.View(google.picker.ViewId.PDFS);
         var picker = new google.picker.PickerBuilder()
@@ -41,7 +39,6 @@
             .addView(new google.picker.DocsUploadView())
             .setDeveloperKey(developerKey)
             .setCallback(pickerCallback)
-            .setOrigin(origin)
             .build();
         
         picker.setVisible(true);
