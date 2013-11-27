@@ -9,8 +9,14 @@
     
     function resizeElements() {
 	var wholeScreenWidth = $('body').width();
-	$('#wrapper-holder').width(wholeScreenWidth-270);
-	$('#app-bar-content').width(wholeScreenWidth-270);
+	if ($('#sidebar-content').is(":visible")) {
+	    $('#wrapper-holder').width(wholeScreenWidth-270);
+	    $('#app-bar-content').width(wholeScreenWidth-270);
+	}
+	else{
+	    $('#wrapper-holder').width(wholeScreenWidth);
+	    $('#app-bar-content').width(wholeScreenWidth);
+	}
         var screenWidth = $( '#wrapper' ).width();
         var fontPixels = (screenWidth/1267)*22;
         var fontPixels2 = (screenWidth/1267)*18;
@@ -61,7 +67,7 @@
     var widthPercentage = 0;
     var heightPercentage = 0;
     
-    $('#wrapper img').imgAreaSelect({
+    $('#backgroundImage').imgAreaSelect({
         fadeSpeed: false,
         handles: true,
         onSelectEnd: function(img, selection){
@@ -595,11 +601,33 @@
     });
 
     
+    /*********************************Display User Avatar********************************/
+    $( "#small-avatar" ).tooltip({ content: '<img class="img-rounded shadow" src="{% if userInfo.avatar %}{{ userInfo.avatar }}{% else %}{{ MEDIA_URL }}/static/images/menu.png{% endif %}" width="250" height="250" alt="user"/>' });
     
+    /***************************************tab highlight and select********************************/
+    $(document).on('click', '#user-info', function(){
+	$('#edit-logo').removeClass('tab-highlight');
+	$('#user-info').addClass('tab-highlight');
+    });
     
+    $(document).on('click', '#edit-logo-pic', function(){
+	$('#user-info').removeClass('tab-highlight');
+	$('#edit-logo').addClass('tab-highlight');
+    });
     
-    
-    
-    
+    /****************************Open side-bar******************************************************/
+    $(document).on('click', '#menuLogo', function(){
+	var wholeScreenWidth = $('body').width();
+	if ($('#sidebar-content').is(":visible")) {
+	    $('#wrapper-holder').animate({width: (wholeScreenWidth)+"px"}, 1000);
+	    $('#app-bar-content').animate({width: (wholeScreenWidth)+"px"}, 1000);
+	    $('#sidebar-content').hide("slow");
+	}
+	else{
+	    $('#wrapper-holder').animate({width: (wholeScreenWidth-270)+"px"}, 1000);
+	    $('#app-bar-content').animate({width: (wholeScreenWidth-270)+"px"}, 1000);
+	    $('#sidebar-content').attr('style','display:block;');
+	}
+    });
     
 </script>

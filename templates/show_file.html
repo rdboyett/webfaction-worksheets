@@ -22,162 +22,120 @@
 
 <body>
 <section id="wrapper-holder">
-<div id="app-bar-content">
-    <img id="barLogo" src="{{ MEDIA_URL }}/static/images/barLogo.png" width="193" height="38" alt="Menu"/>
-    <img id="downLogo" src="{{ MEDIA_URL }}/static/images/down.png" width="29" height="29" alt="Menu"/>
-    <img id="menuLogo" class="shadow" src="{{ MEDIA_URL }}/static/images/menu.png" width="29" height="29" alt="Menu"/>
-</div>
-<div id="questionMenu" class="img-right-rounded shadow">
-    <div class="menuItem newline" style="margin-left: 21%;" >Question Number</div>
-    <input id="questionNumber" class="menuInputs img-rounded menuItem newline" style="margin-left: 37%;" type="number" min="1" step="1" pattern="\d+"/>
-    <div class="menuItem newline" style="margin-left: 27%;" >Answer Type</div>
-    <div class="menuItem newline center" style="width: 100%;">
-        <select id="questionType" class="menuInputs img-rounded" style="margin-left: 0;width: 80%;">
-            <option value="text">Text</option>
-            <option value="number">Number</option>
-            <option value="textarea">Paragraph</option>
-            <option value="select">Multiple Choice</option>
-            <option value="checkbox">Checkbox</option>
-            <option value="work">"Show Your Work" Box</option>
-        </select>
+    <div id="app-bar-content" class="shadow" >
+	<img id="barLogo" src="{{ MEDIA_URL }}/static/images/barLogo.png" width="193" height="38" alt="Menu"/>
+	<img id="downLogo" src="{{ MEDIA_URL }}/static/images/down.png" width="29" height="29" alt="Menu"/>
+	<img id="menuLogo" class="shadow" src="{{ MEDIA_URL }}/static/images/menu.png" width="29" height="29" alt="Menu"/>
     </div>
-    <div class="menuItem"></div>
-</div>
-<div id="textPane" class="highlight typePane img-right-rounded shadow">
-    <div class="menuItem">Correct Answer</div>
-    <div id="correctAnswer" class="menuItem newline"></div>
-    <div class="menuItem">Points</div>
-    <input id="points" class="points menuInputs img-rounded menuItem newline" style="margin-left: 0%;" type="text" />
-    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
-    <textarea id="helpInput" rows="4" class="helpInput menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
-    <div class="menuItem">Help Link...</div>
-    <input id="textHelpLink" class="helpLink menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" placeholder="http://..." type="url" pattern="https?://.+" />
-</div>
-<div id="multipleChoicePane" class="highlight typePane img-right-rounded shadow" style="width: 20%;min-width: 300px;" >
-    <div class="menuItem">Answer Choices</div>
-    <input id="choice1" class="choice menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="radioChoice menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="1" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
-    <input id="choice2" class="choice menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="radioChoice menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="2" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
-    <input id="choice3" class="choice menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="radioChoice menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="3" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
-    <input id="choice4" class="choice menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="radioChoice menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="4" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
-    <input id="choice5" class="choice menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 60%;" value="" type="text" /><input class="radioChoice menuInputs menuItem" style="margin-top: 3.5%;border: 0px;width: 17px;height: 17px;" type="radio" name="correctChoice" value="5" /><div style="margin-top: 3%;margin-right: 3%;font-size: 100%" class="menuItem">Correct?</div>
-    <div class="menuItem newline">Points</div>
-    <input id="multPoints" class="points menuInputs img-rounded menuItem newline" style="margin-left: 0%;" type="text" />
-    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
-    <textarea id="multHelpInput" rows="2" class="helpInput menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
-    <div class="menuItem">Help Link...</div>
-    <input id="multHelpLink" class="helpLink menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" placeholder="http://..." type="url" pattern="https?://.+"  />
-</div>
-<div id="checkboxPane" class="highlight typePane img-right-rounded shadow">
-    <div class="menuItem">Toggle Correct Answer</div>
-    <input id="showCheckbox" type="checkbox" class="menuInputs img-rounded menuItem newline" style="margin-left: 48%;"/>
-    <div class="menuItem newline">Points</div>
-    <input id="checkPoints" class="points menuInputs img-rounded menuItem newline" style="margin-left: 0%;" type="text" />
-    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
-    <textarea id="checkHelpInput" rows="4" class="helpInput menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
-    <div class="menuItem">Help Link...</div>
-    <input id="checkHelpLink" class="helpLink menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" placeholder="http://..." type="url" pattern="https?://.+" />
-</div>
-<div id="textareaPane" class="highlight typePane img-right-rounded shadow">
-    <div class="menuItem">Keywords to Search</div>
-    <input id="keyword1" class="keyword menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
-    <input id="keyword2" class="keyword menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
-    <input id="keyword3" class="keyword menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
-    <input id="keyword4" class="keyword menuInputs img-rounded menuItem newline" style="margin-left: 0%;width: 95%;" value="" type="text" />
-    <div class="menuItem">Points per Keyword Match</div>
-    <input id="areaPoints" class="points menuInputs img-rounded menuItem newline" style="margin-left: 35%;" type="text" />
-    <div class="menuItem newline" style="margin-top: 10px;">Help Text...</div>
-    <textarea id="areaHelpInput" rows="2" class="helpInput menuInputs img-rounded menuItem newline" maxlength="100" style="margin-left: 0%;font-size: 16px;" placeholder="enter help text here..."></textarea>
-    <div class="menuItem">Help Link...</div>
-    <input id="areaHelpLink" class="helpLink menuInputs img-rounded menuItem newline" style="margin-left: 0%;" value="" placeholder="http://..." type="url" pattern="https?://.+" />
-</div>
-<section id="wrapper">
-    {% for backImage in newProject.backgroundImages.all %}
-        {% ifequal backImage.pageNumber pageNumber %}
-        <img id="backgroundImage" class="large-img-rounded" src="{{ MEDIA_URL }}{{ backImage.imagePath }}"/>
-        {% endifequal %}
-    {% endfor %}
-    
-    {% if pageNumber > 1 %}
-    <a href="/nextPage/{{ newProject.id }}/{{ pageNumber|add:"-1" }}/{{ totalPages }}/" title="Previous"><div id="leftNav" class="nav_button_holder"></div></a>
-    {% endif %}
-    {% ifnotequal pageNumber totalPages %}
-    <a href="/nextPage/{{ newProject.id }}/{{ pageNumber|add:"1" }}/{{ totalPages }}/" title="Next"><div id="rightNav" class="nav_button_holder"></div></a>
-    {% endifnotequal %}
-    
-    <form id="default_form">
-    {% if formInputs %}
-        {% for input in formInputs %}
-            {% ifequal input.pageNumber pageNumber %}
-		{% if input.inputType == 'textarea' %}
-		    <textarea id="input{{ input.id }}" class="answers highlight img-rounded" readonly="readonly" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">Place keywords to search in order to help with grading later.</textarea>
-		    <script>
-			{% if input.option1 %}
-			$('#input{{ input.id }}').data('keyword1', '{{ input.option1 }}');
-			{% endif %}
-			{% if input.option2 %}
-			$('#input{{ input.id }}').data('keyword2', '{{ input.option2 }}');
-			{% endif %}
-			{% if input.option3 %}
-			$('#input{{ input.id }}').data('keyword3', '{{ input.option3 }}');
-			{% endif %}
-			{% if input.option4 %}
-			$('#input{{ input.id }}').data('keyword4', '{{ input.option4 }}');
-			{% endif %}
-		    </script>
-		{% elif input.inputType == 'work' %}
-		    <textarea id="input{{ input.id }}" class="answers highlight img-rounded" readonly="readonly" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">Work Area will be activated for student use...</textarea>
-		{% elif input.inputType == 'select' %}
-		    <select id="input{{ input.id }}" class="answers highlight img-rounded" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">
-			<option id="option0" value="none">Select One...</option>
-			{% if input.option1 %}
-			<option id="option1" value="option1">{{ input.option1 }}</option>
-			{% endif %}
-			{% if input.option2 %}
-			<option id="option2" value="option2">{{ input.option2 }}</option>
-			{% endif %}
-			{% if input.option3 %}
-			<option id="option3" value="option3">{{ input.option3 }}</option>
-			{% endif %}
-			{% if input.option4 %}
-			<option id="option4" value="option4">{{ input.option4 }}</option>
-			{% endif %}
-			{% if input.option5 %}
-			<option id="option5" value="option5">{{ input.option5 }}</option>
-			{% endif %}
-		    </select>
-		    <script>
-			{% if input.option1 %}
-			$('#input{{ input.id }}').data('choice1', '{{ input.option1 }}');
-			{% endif %}
-			{% if input.option2 %}
-			$('#input{{ input.id }}').data('choice2', '{{ input.option2 }}');
-			{% endif %}
-			{% if input.option3 %}
-			$('#input{{ input.id }}').data('choice3', '{{ input.option3 }}');
-			{% endif %}
-			{% if input.option4 %}
-			$('#input{{ input.id }}').data('choice4', '{{ input.option4 }}');
-			{% endif %}
-			{% if input.option5 %}
-			$('#input{{ input.id }}').data('choice5', '{{ input.option5 }}');
-			{% endif %}
-			{% if input.correctAnswer %}
-			    $('#input{{ input.id }}').val('{{ input.correctAnswer }}');
-			{% endif %}
-		    </script>
-		{% else %}
-		    <input id="input{{ input.id }}" class="answers highlight" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' type="{{ input.inputType }}" title='answer...' value="{% if input.correctAnswer %}{{ input.correctAnswer }}{% endif %}" name="" style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">
-		{% endif %}
+    <section id="wrapper">
+	{% for backImage in newProject.backgroundImages.all %}
+	    {% ifequal backImage.pageNumber pageNumber %}
+	    <img id="backgroundImage" class="large-img-rounded shadow" src="{{ MEDIA_URL }}{{ backImage.imagePath }}"/>
 	    {% endifequal %}
-        {% endfor %}
-    {% endif %}
-    </form>
-    
-    
-<section id="sidebar-content">test</section>
+	{% endfor %}
+	
+	{% if pageNumber > 1 %}
+	<a href="/nextPage/{{ newProject.id }}/{{ pageNumber|add:"-1" }}/{{ totalPages }}/" title="Previous"><div id="leftNav" class="nav_button_holder"></div></a>
+	{% endif %}
+	{% ifnotequal pageNumber totalPages %}
+	<a href="/nextPage/{{ newProject.id }}/{{ pageNumber|add:"1" }}/{{ totalPages }}/" title="Next"><div id="rightNav" class="nav_button_holder"></div></a>
+	{% endifnotequal %}
+	
+	<form id="default_form">
+	{% if formInputs %}
+	    {% for input in formInputs %}
+		{% ifequal input.pageNumber pageNumber %}
+		    {% if input.inputType == 'textarea' %}
+			<textarea id="input{{ input.id }}" class="answers highlight img-rounded" readonly="readonly" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">Place keywords to search in order to help with grading later.</textarea>
+			<script>
+			    {% if input.option1 %}
+			    $('#input{{ input.id }}').data('keyword1', '{{ input.option1 }}');
+			    {% endif %}
+			    {% if input.option2 %}
+			    $('#input{{ input.id }}').data('keyword2', '{{ input.option2 }}');
+			    {% endif %}
+			    {% if input.option3 %}
+			    $('#input{{ input.id }}').data('keyword3', '{{ input.option3 }}');
+			    {% endif %}
+			    {% if input.option4 %}
+			    $('#input{{ input.id }}').data('keyword4', '{{ input.option4 }}');
+			    {% endif %}
+			</script>
+		    {% elif input.inputType == 'work' %}
+			<textarea id="input{{ input.id }}" class="answers highlight img-rounded" readonly="readonly" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">Work Area will be activated for student use...</textarea>
+		    {% elif input.inputType == 'select' %}
+			<select id="input{{ input.id }}" class="answers highlight img-rounded" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">
+			    <option id="option0" value="none">Select One...</option>
+			    {% if input.option1 %}
+			    <option id="option1" value="option1">{{ input.option1 }}</option>
+			    {% endif %}
+			    {% if input.option2 %}
+			    <option id="option2" value="option2">{{ input.option2 }}</option>
+			    {% endif %}
+			    {% if input.option3 %}
+			    <option id="option3" value="option3">{{ input.option3 }}</option>
+			    {% endif %}
+			    {% if input.option4 %}
+			    <option id="option4" value="option4">{{ input.option4 }}</option>
+			    {% endif %}
+			    {% if input.option5 %}
+			    <option id="option5" value="option5">{{ input.option5 }}</option>
+			    {% endif %}
+			</select>
+			<script>
+			    {% if input.option1 %}
+			    $('#input{{ input.id }}').data('choice1', '{{ input.option1 }}');
+			    {% endif %}
+			    {% if input.option2 %}
+			    $('#input{{ input.id }}').data('choice2', '{{ input.option2 }}');
+			    {% endif %}
+			    {% if input.option3 %}
+			    $('#input{{ input.id }}').data('choice3', '{{ input.option3 }}');
+			    {% endif %}
+			    {% if input.option4 %}
+			    $('#input{{ input.id }}').data('choice4', '{{ input.option4 }}');
+			    {% endif %}
+			    {% if input.option5 %}
+			    $('#input{{ input.id }}').data('choice5', '{{ input.option5 }}');
+			    {% endif %}
+			    {% if input.correctAnswer %}
+				$('#input{{ input.id }}').val('{{ input.correctAnswer }}');
+			    {% endif %}
+			</script>
+		    {% else %}
+			<input id="input{{ input.id }}" class="answers highlight" data-options='{"answer_id":"{{ input.id }}", "question_number":"{{ input.questionNumber }}", "input_type":"{{ input.inputType }}", "points":"{{ input.points }}", "help_text":{% if input.helpText %}"{{ input.helpText }}"{% else %}""{% endif %}, "help_link":{% if input.helpLink %}"{{ input.helpLink }}"{% else %}""{% endif %}}' type="{{ input.inputType }}" title='answer...' value="{% if input.correctAnswer %}{{ input.correctAnswer }}{% endif %}" name="" style="position: absolute;z-index: 1000;left: {{ input.left }}%;top: {{ input.top }}%;width: {{ input.width }}%; height: {{ input.height }}%">
+		    {% endif %}
+		{% endifequal %}
+	    {% endfor %}
+	{% endif %}
+	</form>
+	
+	
+	<section id="sidebar-content" class="shadow">
+	    <div id="top-selection">
+		<div id="user-info">
+		    <div>
+			<img id="small-avatar" title="" class="img-rounded" src="{% if userInfo.avatar %}{{ userInfo.avatar }}{% else %}{{ MEDIA_URL }}/static/images/REPLACEHERE.png{% endif %}" alt="user"/>
+			
+		    </div>
+		    <div id="user-name">{{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</div>
+		</div>
+		<div id="edit-logo" class="tab-highlight">
+		    <img id="edit-logo-pic" title="Edit" class="img-rounded" src="{{ MEDIA_URL }}/static/images/edit.png" alt="edit"/>
+		</div>
+	    </div>
+	    <div id="sidebar-inset">
+		<div id="inset-menu">
+		    <div id="button1" class="inset-edit-buttons img-top-rounded" title="Question Number and Type" ><img src="{{ MEDIA_URL }}/static/images/Question-Number.png" alt="Question Number"/></div>
+		    <div id="button2" class="inset-edit-buttons img-top-rounded" title="Question Number and Type"><img src="{{ MEDIA_URL }}/static/images/Question-Number.png" alt="Question Number"/></div>
+		    <div id="button3" class="inset-edit-buttons img-top-rounded" title="Question Number and Type"><img src="{{ MEDIA_URL }}/static/images/Question-Number.png" alt="Question Number"/></div>
+		</div>
+	    </div>
+	</section>
+    </section>
 </section>
-</section>
-       
+
+
 {% include "includes/showfile_script.html" %}
 
 

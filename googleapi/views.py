@@ -404,6 +404,7 @@ def showNextPage(request, projectID=False, pageNumber=False, totalPages=False):
         else:
             formInputs = False
         return render_to_response('show_file.html', {
+              'user':request.user,
               'userInfo': userInfo,
               'newProject':newProject,
               'pageNumber':int(pageNumber),

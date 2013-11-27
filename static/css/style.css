@@ -18,10 +18,11 @@ background: url(decoration.png) left top no-repeat, url(ribbon.png) right bottom
 #app-bar-content{
 position: fixed;
 width: 100%;
+min-width: 500px;
 height: 45px;
 margin: 0;
 white-space: nowrap;
-z-index: 2000;
+z-index: 1000;
 
     /* default fallback */
     background: rgb(0, 0, 0) transparent;
@@ -37,7 +38,7 @@ z-index: 2000;
 
 #barLogo{float:left;margin:4px;margin-left: 41%;margin-right: 0px;}
 #downLogo{float:left;margin:8px;margin-left: 0px;}
-#menuLogo{float:right;margin:8px;margin-right: 5px;}
+#menuLogo{float:right;margin:8px;margin-right: 15px;}
 
 
 #wrapper-holder{
@@ -48,15 +49,33 @@ z-index: 2000;
 }
 
 #sidebar-content{
+    display: none;
     background-color: black;
     
 color: #fff;
 position: fixed !important;
 top: 0;
 right: 0;
-z-index: 2500;
+z-index: 1000;
 height: 100%;
 width: 270px;
+
+
+-webkit-animation: sidebarAnimation 1s 1 ease-in-out;
+-moz-animation: sidebarAnimation 1s 1 ease-in-out;
+-o-animation: sidebarAnimation 1s 1 ease-in-out;
+}
+@-webkit-keyframes sidebarAnimation {
+0%   {right:-300px;}
+100% {right:0px;}
+}
+@-moz-keyframes sidebarAnimation {
+0%   {right:-300px;}
+100% {right:0px;}
+}
+@-o-keyframes sidebarAnimation {
+0%   {right:-300px;}
+100% {right:0px;}
 }
 
 #wrapper{
@@ -71,9 +90,6 @@ width: 270px;
     width:100%;
     height:100%;
     
-	    -moz-box-shadow: 2px 0px 22px #000000;
-	    -webkit-box-shadow: 2px 0px 22px #000000;
-	    box-shadow: 2px 0px 22px #000000;
 }
 #wrapper input{
     text-align:center;
@@ -167,10 +183,12 @@ border-radius: 6px;
 #questionMenu{
     display: none;
     z-index: 1004;
+    /*
     position: fixed;
     top:14%;
     left: 0;
-    width: 13%;
+    */
+    width: 100%;
     min-width: 150px;
     background-color: #2A75E8;
     /* default fallback */
@@ -209,6 +227,52 @@ border-radius: 6px;
 100% {left:0px;}
 }
 
+/***********************************sidebar menus*****************************************/
+#top-selection{
+    background-color: #FFF;
+    width: 100%;
+    height: 45px;
+    color: #707070;
+    margin: 0;
+}
+
+#top-selection div{float:left; height: 100%;}
+#user-info img{width: 29px; height: 29px;margin:4px;border:3px groove #FFF;cursor: pointer;}
+#user-info{width: 210px;border-right: 1px solid #CCC;cursor: pointer;overflow: hidden;}
+#edit-logo img{width: 35px; height: 35px;margin:5px;border:none;}
+#edit-logo{cursor: pointer;width: 45px;border-right: 1px solid #CCC;}
+#user-name{margin:10px 0 0 5px;}
+.tab-highlight{background: url(../images/pointer.png) center bottom no-repeat,#55bceb;}
+
+#userAvatar{
+display: none;
+border: 3px groove #FFF;
+position: fixed !important;
+top: 45px;
+right: 170px;
+z-index: 2000;
+height: 250px;
+width: 250px;
+}
+
+/*****************************************************************************************/
+
+/***************************Sidebar Inset*************************************************/
+#sidebar-inset{
+    width: 100%;
+    height: 100%;
+}
+
+#inset-menu{float: left;width: 100%;height: 60px;margin-top: 10px;}
+
+.inset-edit-buttons{float: left; width: 32%; height: 100%; border: 1px solid #000;cursor: pointer;background-color: #1a1a1a; /*#3f3f3f;*/}
+
+#inset-menu img{width: 50px;height: 30px;margin: 15px 0 0 20px;}
+
+.inset-edit-buttons:hover{background-color: #3f3f3f;}
+
+
+/*****************************************************************************************/
 #questionNumber{
     width:20%;
     font-size: 8px;
