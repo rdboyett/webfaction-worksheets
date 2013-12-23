@@ -181,50 +181,31 @@ border-radius: 6px;
 }
 
 #questionMenu{
-    display: none;
-    z-index: 1004;
+    float: left;
+    margin: 0 5px 0 5px;
+    /*display: none;*/
+    z-index: 2004;
     /*
     position: fixed;
     top:14%;
     left: 0;
     */
     width: 100%;
-    min-width: 150px;
-    background-color: #2A75E8;
-    /* default fallback */
+    background-color: #CCC;
+    /* default fallback 
     background: rgb(1, 79, 130) transparent;
-    /* nice browsers */
+    /* nice browsers 
     background: rgba(1, 79, 130, 0.5);
-    /* IE 6/7 */
+    /* IE 6/7 
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF);
-    /* IE8 */    
+    /* IE8 
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)";
+    */
     text-align: center;
     padding: 10px;
-    color: #fff;
+    color: #000;
     font-size: 16px;
-    border-top:  3px ridge #E6E6E6;
-    border-right: 3px ridge #E6E6E6;
-    border-bottom: 3px ridge #E6E6E6;
     
--webkit-animation: cssAnimation 1s 1 ease-in-out;
--moz-animation: cssAnimation 1s 1 ease-in-out;
--o-animation: cssAnimation 1s 1 ease-in-out;
-}
-@-webkit-keyframes cssAnimation {
-0%   {left:-300px;}
-80%  {left:20px;}
-100% {left:0px;}
-}
-@-moz-keyframes cssAnimation {
-0%   {left:-300px;}
-90%  {left:10px;}
-100% {left:0px;}
-}
-@-o-keyframes cssAnimation {
-0%   {left:-300px;}
-90%  {left:10px;}
-100% {left:0px;}
 }
 
 /***********************************sidebar menus*****************************************/
@@ -268,8 +249,9 @@ width: 250px;
 .inset-edit-buttons{float: left; width: 32%; height: 100%; border: 1px solid #000;cursor: pointer;background-color: #1a1a1a; /*#3f3f3f;*/}
 
 #inset-menu img{width: 50px;height: 30px;margin: 15px 0 0 20px;}
+#inset-menu .selected {background: url(../images/grey-pointer.png) center bottom no-repeat,#3f3f3f;}
 
-.inset-edit-buttons:hover{background-color: #3f3f3f;}
+.inset-edit-buttons:hover{background: url(../images/grey-pointer.png) center bottom no-repeat,#3f3f3f;}
 
 
 /*****************************************************************************************/

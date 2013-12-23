@@ -127,9 +127,33 @@
 	    <div id="sidebar-inset">
 		<div id="inset-menu">
 		    <div id="button1" class="inset-edit-buttons img-top-rounded" title="Question Number and Type" ><img src="{{ MEDIA_URL }}/static/images/Question-Number.png" alt="Question Number"/></div>
-		    <div id="button2" class="inset-edit-buttons img-top-rounded" title="Question Number and Type"><img src="{{ MEDIA_URL }}/static/images/Question-Number.png" alt="Question Number"/></div>
+		    <div id="button2" class="inset-edit-buttons img-top-rounded" title="Answer"><img src="{{ MEDIA_URL }}/static/images/answer.png" alt="Question Number"/></div>
 		    <div id="button3" class="inset-edit-buttons img-top-rounded" title="Question Number and Type"><img src="{{ MEDIA_URL }}/static/images/Question-Number.png" alt="Question Number"/></div>
 		</div>
+		
+<!-----------------------Question Number and Type---------------------------------->
+<div id="questionMenu" class="img-rounded">
+    <div class="menuItem newline" style="margin-left: 21%;" >Question Number</div>
+    <input id="questionNumber" class="menuInputs img-rounded menuItem newline" style="margin-left: 37%;" type="number" min="1" step="1" pattern="\d+"/>
+    <div class="menuItem newline" style="margin-left: 27%;" >Answer Type</div>
+    <div class="menuItem newline center" style="width: 100%;">
+        <select id="questionType" class="menuInputs img-rounded" style="margin-left: 0;width: 80%;">
+            <option value="text">Text</option>
+            <option value="number">Number</option>
+            <option value="textarea">Paragraph</option>
+            <option value="select">Multiple Choice</option>
+            <option value="checkbox">Checkbox</option>
+            <option value="work">"Show Your Work" Box</option>
+        </select>
+    </div>
+    <div class="menuItem"></div>
+</div>
+<!-------------------End Question Number and Type---------------------------------->
+		
+		
+		
+		
+		
 	    </div>
 	</section>
     </section>
